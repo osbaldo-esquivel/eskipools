@@ -25,9 +25,10 @@
                                 <x-button type="submit" onclick="this.form.submit()">
                                     @csrf
                                     <p>{{ $game->home_team }}</p>
-                                    <input type="hidden" name="team" value="{{ $game->home_team }}">
+                                    <input type="hidden" name="teams" value="{{ strtolower($game->home_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ $week->id }}" />
+                                    <input type="hidden" name="id" value="{{ (string) $game->picks->where('user_id', auth()->user()->id)->first()?->id }}" />
                                 </x-button>
                             </form>
                         </div>
@@ -36,15 +37,16 @@
                                 <x-button type="submit" onclick="this.form.submit()">
                                     @csrf
                                     <p>{{ $game->away_team }}</p>
-                                    <input type="hidden" name="team" value="{{ $game->home_team }}">
+                                    <input type="hidden" name="teams" value="{{ strtolower($game->away_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ (string) $week->id }}" />
+                                    <input type="hidden" name="id" value="{{ (string) $game->picks->where('user_id', auth()->user()->id)->first()?->id }}" />
                                 </x-button>
                             </form>
                         </div>
                     </div>
                 </td>
-                <td class="text-center"></td>
+                <td class="text-center">{{ $game->picks->where('user_id', auth()->user()->id)->first()?->teams }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -3,7 +3,6 @@
 namespace App\Domains\Picks\Services;
 
 use App\Domains\Picks\Models\Pick;
-use App\Domains\Weeks\Models\Week;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -12,22 +11,22 @@ class PicksService implements PicksServiceInterface
 
     public function create(array $attributes): Pick
     {
-        $id = Str::orderedUuid();
+        $attributes = array_merge($attributes, [
+            'id' => Str::orderedUuid(),
+        ]);
 
         return Pick::query()
-            ->create(array_merge([
-                'id' => $id,
-            ], $attributes));
+            ->create($attributes);
     }
 
     public function update(string $id, array $attributes): Pick
-    {
+    {dd($id);
         Pick::query()
             ->where('id', $id)
             ->update($attributes);
 
-        return $this->getOne($id)
-            ->fresh();
+        return Pick::query()
+            ->find($id);
     }
 
     public function getTeams(string $week_id, string $user_id): ?string

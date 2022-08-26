@@ -7,18 +7,32 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property string $week_id
+ * @property int    $user_id
+ * @property string $teams
+ * @property string $game_id
+ * 
+ */
 class Pick extends Model
 {
     use HasFactory;
 
     protected $table = 'picks';
 
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [
         'week_id',
         'user_id',
-        'teams'
+        'teams',
+        'game_id',
+        'id'
     ];
 
     protected function teams(): Attribute
