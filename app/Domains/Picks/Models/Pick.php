@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $id
  * @property string $week_id
  * @property int    $user_id
- * @property string $teams
+ * @property string $team
  * @property string $game_id
  * 
  */
@@ -30,7 +30,7 @@ class Pick extends Model
     protected $fillable = [
         'week_id',
         'user_id',
-        'teams',
+        'team',
         'game_id',
         'id'
     ];
@@ -38,8 +38,8 @@ class Pick extends Model
     protected function teams(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value),
-            set: fn ($value) => json_encode($value)
+            get: fn ($value) => $value,
+            set: fn ($value) => $value
         );
     }
 
