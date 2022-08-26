@@ -1,12 +1,12 @@
-@props(['week'])
+@props(['week', 'picks'])
 
-<table class="table w-full">
+<table class="table-auto w-full">
     <thead>
         <tr>
-            <th>Teams</th>
+            <th>Teams</thc>
             <th>City</th>
             <th>Date</th>
-            <th></th>
+            <th>Choose team</th>
             <th>Pick</th>
         </tr>
     </thead>
@@ -25,10 +25,10 @@
                                 <x-button type="submit" onclick="this.form.submit()">
                                     @csrf
                                     <p>{{ $game->home_team }}</p>
-                                    <input type="hidden" name="teams" value="{{ strtolower($game->home_team) }}">
+                                    <input type="hidden" name="team" value="{{ strtolower($game->home_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ $week->id }}" />
-                                    <input type="hidden" name="id" value="{{ (string) $game->picks->where('user_id', auth()->user()->id)->first()?->id }}" />
+                                    <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
                                 </x-button>
                             </form>
                         </div>
@@ -37,16 +37,32 @@
                                 <x-button type="submit" onclick="this.form.submit()">
                                     @csrf
                                     <p>{{ $game->away_team }}</p>
-                                    <input type="hidden" name="teams" value="{{ strtolower($game->away_team) }}">
+                                    <input type="hidden" name="team" value="{{ strtolower($game->away_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ (string) $week->id }}" />
-                                    <input type="hidden" name="id" value="{{ (string) $game->picks->where('user_id', auth()->user()->id)->first()?->id }}" />
+                                    <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
+                                </x-button>
+                            </form>
+                        </div>
+                        <div>
+                            <form action="\clear-pick" method="POST">
+                                <x-button type="submit" onclick="this.form.submit()">
+                                    @csrf
+                                    @method('DELETE')
+                                    <p>X</p>
+                                    <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
                                 </x-button>
                             </form>
                         </div>
                     </div>
                 </td>
-                <td class="text-center">{{ $game->picks->where('user_id', auth()->user()->id)->first()?->teams }}</td>
+                <td class="text-center">
+                    @if ($pick = $picks->where('game_id', $game->id)->first()?->team)
+                        <img src="{{ url("/images/$pick.ico") }}" class="h-12" />
+                    @else
+                        <p></p>
+                    @endif
+                </td>
             </tr>
         @endforeach
     </tbody>

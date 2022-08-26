@@ -61,4 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::get('make-picks', [EditPoolController::class, 'edit'])->name('make-picks');
 
     Route::post('submit-picks', [EditPoolController::class, 'submit']);
+
+    Route::delete('clear-pick', [EditPoolController::class, 'delete']);
 });
