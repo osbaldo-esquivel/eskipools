@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
 class Weeks extends Facade
 {
     /**
+     * @method static ?Week      getActive()
      * @method static ?Week      getOne(string $id)
      * @method static Collection getAll()
      */

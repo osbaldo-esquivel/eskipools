@@ -17,4 +17,11 @@ class WeeksService implements WeeksServiceInterface
         return Week::query()
             ->get();
     }
+
+    public function getActive(): ?Week
+    {
+        return Week::query()
+            ->where('is_active', true)
+            ->first();
+    }
 }

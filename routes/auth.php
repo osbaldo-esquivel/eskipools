@@ -59,4 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::get('current-week', [PoolController::class, 'show'])->name('current-week');
 
     Route::get('make-picks', [EditPoolController::class, 'edit'])->name('make-picks');
+
+    Route::post('submit-picks', [EditPoolController::class, 'submit']);
 });
