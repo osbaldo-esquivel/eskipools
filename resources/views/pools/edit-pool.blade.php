@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex items-center justify-center">
-        <x-game :week="$week" :picks="$picks">
+        <x-game :games="$games" :picks="$picks" :week="$week">
         </x-game>
     </div>
 </x-app-layout>

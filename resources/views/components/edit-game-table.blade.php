@@ -1,4 +1,4 @@
-@props(['week', 'picks'])
+@props(['games', 'picks', 'week'])
 
 <table class="w-full flex flex-row flex-no-wrap rounded-lg overflow-hidden sm:shadow-lg my-5">
     <thead>
@@ -12,37 +12,37 @@
         </tr>
     </thead>
     <tbody class="flex-1 sm:flex-none">
-        @foreach ($week->games->sortBy('time') as $game)
-            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+        @foreach ($games as $game)
+            <tr class="bg-white flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
                 <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
-                    <p>{{ $game->away_team }} @ {{ $game->home_team }}</p>
+                    <p>{{ ucfirst($game->away_team) }} @ {{ ucfirst($game->home_team) }}</p>
                 </td>
                 <td class="text-center border-grey-light border hover:bg-gray-100 p-3">{{ $game->city }}</td>
-                <td class="text-center border-grey-light border hover:bg-gray-100 p-3">{{ $game->time }}</td>
+                <td class="text-center border-grey-light border hover:bg-gray-100 p-3">{{ $game->date }}</td>
                 <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
-                    <div class="flex justify-center space-x-4">
+                    <div class="flex justify-center space-x-8">
                         <div>
                             <form action="\submit-picks" method="POST">
-                                <x-button type="submit" onclick="this.form.submit()">
+                                <button type="submit" onclick="this.form.submit()">
                                     @csrf
-                                    <p>{{ $game->home_team }}</p>
+                                    <img src="{{ url("/images/$game->home_team.ico") }}" class="h-12 mx-auto" alt="{{ $game->home_team }}" />
                                     <input type="hidden" name="team" value="{{ strtolower($game->home_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ $week->id }}" />
                                     <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
-                                </x-button>
+                                </button>
                             </form>
                         </div>
                         <div>
                             <form action="\submit-picks" method="POST">
-                                <x-button type="submit" onclick="this.form.submit()">
+                                <button type="submit" onclick="this.form.submit()">
                                     @csrf
-                                    <p>{{ $game->away_team }}</p>
+                                    <img src="{{ url("/images/$game->away_team.ico") }}" class="h-12 mx-auto" />
                                     <input type="hidden" name="team" value="{{ strtolower($game->away_team) }}">
                                     <input type="hidden" name="game_id" value="{{ $game->id }}" />
                                     <input type="hidden" name="week_id" value="{{ (string) $week->id }}" />
                                     <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
-                                </x-button>
+                                </button>
                             </form>
                         </div>
                     </div>

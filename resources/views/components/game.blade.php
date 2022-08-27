@@ -1,5 +1,5 @@
-@props(['week', 'picks'])
+@props(['games', 'picks', 'week'])
 
 <div class="container">
-    <x-edit-game-table :week="$week" :picks="$picks"></x-edit-game-table>
+    <x-edit-game-table :games="$games" :picks="$picks" :week="$week"></x-edit-game-table>
 </div>
