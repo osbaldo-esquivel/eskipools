@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block" />
+                        <x-application-logo class="block" :height="__('h-12')" />
                     </a>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -17,6 +17,13 @@
                         {{ __('Edit picks') }}
                     </x-nav-link>
                 </div>
+                @if (Auth::user()->is_paid)
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('current-week')" :active="request()->routeIs('current-week')">
+                            {{ __('Pool') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">

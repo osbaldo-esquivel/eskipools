@@ -1,14 +1,13 @@
-@props(['games', 'picks', 'week'])
+@props(['games', 'picks', 'week', 'score'])
 
 <table class="w-full flex flex-row flex-no-wrap rounded-lg overflow-hidden sm:shadow-lg my-5">
-    <thead>
+    <thead class="invisible sm:visible">
         <tr class="bg-gray-200 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
             <th class="p-3">Teams</thc>
             <th class="p-3">City</th>
             <th class="p-3">Date</th>
             <th class="p-3">Choose team</th>
             <th class="p-3">Pick</th>
-            <th class="p-3">Action</th>
         </tr>
     </thead>
     <tbody class="flex-1 sm:flex-none">
@@ -48,19 +47,19 @@
                     </div>
                 </td>
                 <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
-                    @if ($pick = $picks->where('game_id', $game->id)->first()?->team)
-                        <img src="{{ url("/images/$pick.ico") }}" class="h-12 mx-auto" />
-                    @else
-                        <p></p>
-                    @endif
-                </td>
-                <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
+                    <div>
+                        @if ($pick = $picks->where('game_id', $game->id)->first()?->team)
+                            <img src="{{ url("/images/$pick.ico") }}" class="h-24 mx-auto" />
+                        @else
+                            <p></p>
+                        @endif
+                    </div>
                     <div>
                         <form action="\clear-pick" method="POST">
                             <x-button type="submit" onclick="this.form.submit()">
                                 @csrf
                                 @method('DELETE')
-                                <p>X</p>
+                                <p>Delete pick</p>
                                 <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
                             </x-button>
                         </form>
@@ -68,6 +67,19 @@
                 </td>
             </tr>
         @endforeach
+        <tr class="bg-white flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+            <td colspan="4" class="text-right border-grey-light border hover:bg-gray-100 p-3">Total MNF score</td>
+            <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
+                <div>
+                    <form action="\submit-score" method="post">
+                        @csrf
+                        <x-number :name="__('score')" :value="$score"></x-number>
+                        <input type="hidden" name="week_id" value="{{ (string) $picks->first()?->week_id }}" />
+                        <x-button type="submit">Submit</x-button>
+                    </form>
+                </div>
+            </td>
+        </tr>
     </tbody>
 </table>
 
