@@ -12,7 +12,7 @@ class ScoreController extends Controller
     public function submit(Request $request): RedirectResponse
     {
         $user_id = $request->user()->id;
-        
+
         Scores::save(array_merge([
             'user_id' => $user_id,
         ], $request->except('_token')));

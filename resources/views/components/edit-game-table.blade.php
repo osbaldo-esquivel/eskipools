@@ -47,36 +47,46 @@
                     </div>
                 </td>
                 <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
-                    <div>
+                    <div class="items-center justify-center">
                         @if ($pick = $picks->where('game_id', $game->id)->first()?->team)
-                            <img src="{{ url("/images/$pick.ico") }}" class="h-24 mx-auto" />
+                            <div>
+                                <img src="{{ url("/images/$pick.ico") }}" class="h-24 mx-auto" />                            
+                            </div>
+                            <div>
+                                <form action="\clear-pick" method="POST">
+                                    <x-button type="submit" class="h-4" onclick="this.form.submit()">
+                                        @csrf
+                                        @method('DELETE')
+                                        <p>Cancel</p>
+                                        <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
+                                    </x-button>
+                                </form>
+                            </div>
                         @else
-                            <p></p>
+                            <div></div>
                         @endif
-                    </div>
-                    <div>
-                        <form action="\clear-pick" method="POST">
-                            <x-button type="submit" onclick="this.form.submit()">
-                                @csrf
-                                @method('DELETE')
-                                <p>Delete pick</p>
-                                <input type="hidden" name="id" value="{{ $picks->where('game_id', $game->id)->first()?->id }}" />
-                            </x-button>
-                        </form>
                     </div>
                 </td>
             </tr>
         @endforeach
         <tr class="bg-white flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-            <td colspan="4" class="text-right border-grey-light border hover:bg-gray-100 p-3">Total MNF score</td>
+            <td colspan="3" class="text-right border-grey-light border hover:bg-gray-100 p-3">Total MNF score</td>
             <td class="text-center border-grey-light border hover:bg-gray-100 p-3">
                 <div>
                     <form action="\submit-score" method="post">
                         @csrf
-                        <x-number :name="__('score')" :value="$score"></x-number>
+                        <x-number :name="__('score')" :value="$score['score']"></x-number>
+                        <input type="hidden" name="id" value="{{ $score['id'] }}" />
                         <input type="hidden" name="week_id" value="{{ (string) $picks->first()?->week_id }}" />
-                        <x-button type="submit">Submit</x-button>
+                        <x-button type="submit">Submit score</x-button>
                     </form>
+                </div>
+            </td>
+            <td class="text-center">
+                <div>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                        Pool
+                    </button>
                 </div>
             </td>
         </tr>
