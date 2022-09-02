@@ -18,12 +18,8 @@ class PickFactory extends Factory
             'id' => $this->faker->uuid(),
             'user_id' => User::factory(),
             'week_id' => Week::factory(),
-            'teams' => [
-                'chargers',
-                'raiders',
-                'chiefs',
-                'broncos',
-            ],
+            'team' => 'chargers',
+            'game_id' => Game::factory(),
         ];
     }
 }

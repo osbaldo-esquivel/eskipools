@@ -18,7 +18,7 @@ class GameFactory extends Factory
             'home_team' => $this->faker->word(),
             'away_team' => $this->faker->word(),
             'city' => $this->faker->city(),
-            'time' => Carbon::now()->format('Y-M-d'),
+            'date' => Carbon::now()->format('Y-M-d'),
             'week_id' => Week::factory(),
         ];
     }

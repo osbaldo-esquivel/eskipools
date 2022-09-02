@@ -3,6 +3,7 @@
 namespace App\Domains\Weeks\Models;
 
 use App\Domains\Games\Models\Game;
+use App\Domains\Scores\Models\Score;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,10 @@ class Week extends Model
     public function games(): HasMany
     {
         return $this->hasMany(Game::class);
+    }
+
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
     }
 }

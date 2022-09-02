@@ -21,11 +21,11 @@ class Game extends Model
         'home_team',
         'away_team',
         'city',
-        'time',
+        'date',
     ];
 
     protected $casts = [
-        'time' => 'datetime',
+        'date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -40,7 +40,7 @@ class Game extends Model
     protected function homeTeam(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucfirst($value),
+            get: fn ($value) => $value,
             set: fn ($value) => $value,
         );
     }
@@ -48,7 +48,7 @@ class Game extends Model
     protected function awayTeam(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucfirst($value),
+            get: fn ($value) => $value,
             set: fn ($value) => $value,
         );
     }
@@ -61,11 +61,11 @@ class Game extends Model
         );
     }
 
-    protected function time(): Attribute
+    protected function date(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Carbon::parse($value),
+            get: fn ($value) => Carbon::parse($value)->toDayDateTimeString(),
+            set: fn ($value) => $value,
         );
     }
 

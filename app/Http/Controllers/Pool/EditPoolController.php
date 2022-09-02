@@ -17,9 +17,17 @@ class EditPoolController extends Controller
 
         $picks = Picks::getCurrentPicks($week->id, $request->user()->id);
 
-        return view('pools.edit-pool', [
-            'week' => $week,
+        $score = $week->scores->where('user_id', $request->user()->id)->where('week_id', $week->id)->first();
+
+        return view('layouts.pools.edit-pool', [
+            'games' => $week->games->sortByDesc(
+                function ($game) {
+                    return $game->date;
+                }
+            ),
             'picks' => $picks,
+            'week' => $week,
+            'score' => ['id' => $score?->id, 'score' => $score?->score],
         ]);
     }
 
